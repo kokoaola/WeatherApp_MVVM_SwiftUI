@@ -41,10 +41,9 @@ class Webservice {
             }
             
             // 取得したデータをJSON形式からWeatherResponse型にデコード
-            // この部分の具体的な処理は提示されたコードには含まれていない
             let weatherResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data)
             if let weatherResponse = weatherResponse {
-                // 処理の具体的な続きは提示されたコードには含まれていない
+                completion(.success(weatherResponse.weather))
             }
             
         }.resume() // データタスクを開始

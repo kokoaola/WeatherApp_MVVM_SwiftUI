@@ -51,7 +51,7 @@ struct WeatherResponse: Decodable {
         //WeatherKeysは、ネストされた"main"オブジェクト内のキーとWeather構造体のプロパティをマッピングするための列挙型
         let weatherContainer = try container.nestedContainer(keyedBy: WeatherKeys.self, forKey: .weather)
         
-        // weatherContainer（"main"キーによってネストされたJSONオブジェクトに対応するコンテナ）から、temperatureキーに対応するデータをデコード
+        // temperatureプロパティのみ使用したいので、weatherContainer（"main"キーによってネストされたJSONオブジェクトに対応するコンテナ）から、temperatureキーに対応するデータをデコード
         // Weather型の'temperature'キーに対応するデータをDouble型としてデコードして格納
         let temperature = try weatherContainer.decode(Double.self, forKey: .temperature)
         
@@ -62,6 +62,7 @@ struct WeatherResponse: Decodable {
         // 'icon'キーに対応するデータをデコード
         icon = try container.decode([WeatherIcon].self, forKey: .icon)
         // 'sys'キーに対応するデータをデコード
+        // weather(JSONでは"main")キーと同じくネストされているが、一つ一つのプロパティはSys構造体のinit内でデコードしている
         sys = try container.decode(Sys.self, forKey: .sys)
         
         // Weather型のプロパティにデコードされたデータをセット
@@ -102,7 +103,7 @@ struct Sys: Decodable {
         case sunset = "sunset"
     }
     
-    /// イニシャライザ: JSONデコーダから日の出と日の入りの時間情報を読み込む。
+    /// イニシャライザ: JSONデコーダからJSONデータ内の関連するキーから値を取り出す
     init(from decoder: Decoder) throws {
         // キーごとにデータをデコードするためのコンテナを取得
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -156,7 +157,7 @@ struct WeatherIcon: Decodable {
  
  "base":"stations",
  
- //weatherって名前のプロパティ
+ //Appではweatherって名前のプロパティ
  //オブジェクトがネストしている
  //親とは別のコンテナnestedContainer(keyedBy:forKey:) を使用してそのオブジェクト内部のデータにアクセスし、内部のプロパティを個別にデコードする必要がある
  "main":{
@@ -190,8 +191,8 @@ struct WeatherIcon: Decodable {
  "type":2,
  "id":268395,
  "country":"JP",
- "sunrise":1702330868,
- "sunset":1702366096
+ "sunrise":1702330868, // UNIX時間（1970年1月1日からの経過秒数）
+ "sunset":1702366096 // UNIX時間（1970年1月1日からの経過秒数）
  },
  
  "timezone":32400,

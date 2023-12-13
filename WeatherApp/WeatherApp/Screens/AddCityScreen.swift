@@ -11,18 +11,22 @@ import SwiftUI
 ///都市を新しく追加する画面
 struct AddCityScreen: View {
     
+    @EnvironmentObject var store: Store
     @Environment(\.presentationMode) private var presentationMode
-    @State private var city: String = ""
+    @StateObject private var addWeatherVM = AddWeatherViewModel()
     
     var body: some View {
         
         VStack {
             VStack(spacing: 20) {
-                TextField("Enter city", text: $city)
+                TextField("Enter city", text: $addWeatherVM.city)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button("Save") {
-                    // save weather in environment object
-                    
+                    ///入力した都市を保存
+                    addWeatherVM.save { weather in
+                        store.addWeather(weather)
+                        presentationMode.wrappedValue.dismiss()
+                    }
                     
                 }.padding(10)
                     .frame(maxWidth: UIScreen.main.bounds.width/4)
@@ -44,5 +48,6 @@ struct AddCityScreen: View {
 struct AddCityScreen_Previews: PreviewProvider {
     static var previews: some View {
         AddCityScreen()
+            .environmentObject(Store())
     }
 }
