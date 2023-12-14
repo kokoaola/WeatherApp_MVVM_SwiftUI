@@ -25,9 +25,12 @@ class Store: ObservableObject {
     @Published var selectedUnit: TemperatureUnit = .kelvin
     @Published var weatherList: [WeatherViewModel] = [WeatherViewModel]()
     
+    init(){
+        selectedUnit = UserDefaults.standard.unit
+    }
+    
     ///都市名を配列に追加する関数
     func addWeather(_ weather: WeatherViewModel) {
         weatherList.append(weather)
     }
-    
 }

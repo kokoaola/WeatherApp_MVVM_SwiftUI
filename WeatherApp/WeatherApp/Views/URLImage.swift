@@ -34,10 +34,11 @@ struct URLImage: View {
         // ImageLoaderからダウンロードされたデータがある場合
         if let data = self.imageLoader.downloadedData {
             // ダウンロードされたデータからUIImageを作成し、resizableで返す
-            return Image(uiImage: UIImage(data: data)!).resizable()
+            
+           Image(uiImage: UIImage(data: data)!).resizable()
         } else {
             // ダウンロードされたデータがない場合はプレースホルダー画像を表示
-            return Image("placeholder").resizable()
+            Image(systemName: "photo").foregroundColor(.gray)
         }
         
     }

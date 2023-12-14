@@ -92,8 +92,8 @@
 				3B89B4222B28508500E65A4A /* View Models */,
 				3B89B41A2B28508500E65A4A /* Screens */,
 				3B89B4202B28508500E65A4A /* Views */,
-				3B89B3F62B2840DD00E65A4A /* Preview Content */,
 				3B89B41E2B28508500E65A4A /* Utils */,
+				3B89B3F62B2840DD00E65A4A /* Preview Content */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
